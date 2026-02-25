@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宝贝数字乐园 - 儿童数字加减法学习</title>
-    <!-- 引入Tailwind CSS -->
+    <title>宝贝学习乐园 - 字母/汉字/成语/古诗/数学</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入Font Awesome图标 -->
+    <!-- Font Awesome 图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- 自定义配置 -->
@@ -15,10 +15,12 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#FF6B8B', // 粉色主色调
-                        secondary: '#4A90E2', // 蓝色辅助色
-                        accent: '#FFD166', // 黄色强调色
-                        light: '#F8F9FA', // 浅色背景
+                        primary: '#FF6B8B',    // 粉色主色调
+                        secondary: '#4A90E2',  // 蓝色辅助色
+                        accent: '#FFD166',     // 黄色强调色
+                        green: '#28a745',      // 绿色
+                        purple: '#9370DB',     // 紫色
+                        light: '#F8F9FA',      // 浅色背景
                     },
                     fontFamily: {
                         kid: ['Comic Sans MS', 'Marker Felt', '微软雅黑', 'sans-serif'],
@@ -40,47 +42,104 @@
                 transform: scale(1.05);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
-            .number-card {
+            .card-hover {
                 transition: all 0.2s ease;
             }
-            .number-card:hover {
+            .card-hover:hover {
                 transform: translateY(-5px);
+            }
+            .nav-active {
+                background-color: rgba(255, 255, 255, 0.2);
             }
         }
     </style>
 </head>
 <body class="bg-light font-kid min-h-screen">
     <!-- 顶部导航 -->
-    <header class="bg-primary text-white py-4 shadow-md">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <h1 class="text-2xl md:text-3xl font-bold text-shadow">宝贝数字乐园</h1>
-            <nav>
-                <ul class="flex space-x-4 md:space-x-6">
-                    <li><a href="#numbers" class="btn-hover py-1 px-2 rounded-md hover:bg-white/20">认识数字</a></li>
-                    <li><a href="#math" class="btn-hover py-1 px-2 rounded-md hover:bg-white/20">加减法练习</a></li>
+    <header class="bg-primary text-white py-4 shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-shadow text-center mb-4">宝贝学习乐园</h1>
+            <!-- 移动端导航菜单按钮 -->
+            <button id="menu-toggle" class="md:hidden block mx-auto mb-2 bg-white/20 rounded-md py-1 px-3">
+                <i class="fas fa-bars"></i> 菜单
+            </button>
+            <!-- 导航菜单 -->
+            <nav id="nav-menu" class="hidden md:block">
+                <ul class="flex flex-wrap justify-center gap-2 md:gap-4">
+                    <li><a href="#alphabets" class="nav-link btn-hover py-2 px-3 rounded-md">字母</a></li>
+                    <li><a href="#chinese" class="nav-link btn-hover py-2 px-3 rounded-md">汉字</a></li>
+                    <li><a href="#idioms" class="nav-link btn-hover py-2 px-3 rounded-md">成语</a></li>
+                    <li><a href="#poems" class="nav-link btn-hover py-2 px-3 rounded-md">古诗</a></li>
+                    <li><a href="#math" class="nav-link btn-hover py-2 px-3 rounded-md">数学</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <!-- 数字认知区域 -->
-        <section id="numbers" class="mb-16">
-            <h2 class="text-2xl md:text-3xl font-bold text-secondary mb-8 text-center">认识数字 0-9</h2>
-            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4 md:gap-6">
-                <!-- 数字卡片会通过JS生成 -->
+        <!-- 1. 字母学习模块 -->
+        <section id="alphabets" class="mb-16 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-secondary mb-8 text-center">认识26个英文字母</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-13 gap-4">
+                <!-- 字母卡片通过JS生成 -->
             </div>
-            
-            <!-- 数字朗读按钮 -->
             <div class="mt-8 text-center">
-                <button id="read-number-btn" class="bg-accent text-gray-800 font-bold py-3 px-6 rounded-lg btn-hover">
-                    <i class="fas fa-volume-up mr-2"></i>随机朗读一个数字
+                <button id="read-letter-btn" class="bg-accent text-gray-800 font-bold py-3 px-6 rounded-lg btn-hover">
+                    <i class="fas fa-volume-up mr-2"></i>随机朗读一个字母
                 </button>
             </div>
         </section>
 
-        <!-- 加减法练习区域 -->
-        <section id="math" class="mb-12">
+        <!-- 2. 汉字学习模块 -->
+        <section id="chinese" class="mb-16 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-green mb-8 text-center">认识简单汉字</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- 汉字卡片通过JS生成 -->
+            </div>
+            <div class="mt-8 text-center">
+                <button id="read-char-btn" class="bg-green text-white font-bold py-3 px-6 rounded-lg btn-hover">
+                    <i class="fas fa-volume-up mr-2"></i>随机朗读一个汉字
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. 成语学习模块 -->
+        <section id="idioms" class="mb-16 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-purple mb-8 text-center">趣味成语</h2>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
+                <div id="idiom-display" class="text-3xl md:text-4xl font-bold text-center mb-6 text-purple">点击下方按钮获取成语</div>
+                <div id="idiom-explain" class="text-lg text-center mb-6 min-h-12">成语解释会显示在这里</div>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <button id="new-idiom-btn" class="bg-purple text-white font-bold py-2 px-6 rounded-lg btn-hover">
+                        <i class="fas fa-book mr-2"></i>新成语
+                    </button>
+                    <button id="read-idiom-btn" class="bg-purple/80 text-white font-bold py-2 px-6 rounded-lg btn-hover">
+                        <i class="fas fa-volume-up mr-2"></i>朗读成语
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 古诗学习模块 -->
+        <section id="poems" class="mb-16 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-primary mb-8 text-center">经典古诗</h2>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
+                <div id="poem-title" class="text-2xl font-bold text-center mb-2 text-primary">点击下方按钮获取古诗</div>
+                <div id="poem-author" class="text-center text-gray-600 mb-4">（作者）</div>
+                <div id="poem-content" class="text-xl text-center leading-relaxed mb-6 min-h-40">古诗内容会显示在这里</div>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <button id="new-poem-btn" class="bg-primary text-white font-bold py-2 px-6 rounded-lg btn-hover">
+                        <i class="fas fa-scroll mr-2"></i>新古诗
+                    </button>
+                    <button id="read-poem-btn" class="bg-primary/80 text-white font-bold py-2 px-6 rounded-lg btn-hover">
+                        <i class="fas fa-volume-up mr-2"></i>朗读古诗
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 数学学习模块 -->
+        <section id="math" class="mb-12 scroll-mt-20">
             <h2 class="text-2xl md:text-3xl font-bold text-secondary mb-8 text-center">开心加减法</h2>
             
             <!-- 难度选择 -->
@@ -130,80 +189,228 @@
 
     <footer class="bg-gray-800 text-white py-6">
         <div class="container mx-auto px-4 text-center">
-            <p>宝贝数字乐园 © 2026 | 快乐学习，快乐成长</p>
+            <p>宝贝学习乐园 © 2026 | 快乐学习，快乐成长</p>
         </div>
     </footer>
 
     <script>
+        // 全局数据
+        const simpleCharacters = [
+            '一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+            '日', '月', '水', '火', '山', '石', '田', '土', '人', '口',
+            '手', '足', '耳', '目', '爸', '妈', '爷', '奶', '上', '下',
+            '左', '右', '大', '小', '多', '少', '天', '地'
+        ];
+
+        const idiomsList = [
+            { name: '一心一意', explain: '形容专心致志，没有别的想法' },
+            { name: '二话不说', explain: '不说任何别的话，立即行动' },
+            { name: '三心二意', explain: '形容犹豫不决，意志不坚定' },
+            { name: '四面八方', explain: '指各个方面或各个地方' },
+            { name: '五光十色', explain: '形容色彩鲜艳，花样繁多' },
+            { name: '六神无主', explain: '形容心慌意乱，不知所措' },
+            { name: '七上八下', explain: '形容心里慌乱不安' },
+            { name: '八面玲珑', explain: '形容人处世圆滑，待人接物面面俱到' },
+            { name: '九牛一毛', explain: '比喻极大数量中极微小的数量，微不足道' },
+            { name: '十全十美', explain: '指十分完美，毫无欠缺' },
+            { name: '百发百中', explain: '形容射箭或打枪准确，每次都命中目标' },
+            { name: '千军万马', explain: '形容雄壮的队伍或浩大的声势' }
+        ];
+
+        const poemsList = [
+            {
+                title: '咏鹅',
+                author: '唐·骆宾王',
+                content: '鹅，鹅，鹅，曲项向天歌。白毛浮绿水，红掌拨清波。'
+            },
+            {
+                title: '静夜思',
+                author: '唐·李白',
+                content: '床前明月光，疑是地上霜。举头望明月，低头思故乡。'
+            },
+            {
+                title: '春晓',
+                author: '唐·孟浩然',
+                content: '春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。'
+            },
+            {
+                title: '登鹳雀楼',
+                author: '唐·王之涣',
+                content: '白日依山尽，黄河入海流。欲穷千里目，更上一层楼。'
+            },
+            {
+                title: '悯农',
+                author: '唐·李绅',
+                content: '锄禾日当午，汗滴禾下土。谁知盘中餐，粒粒皆辛苦。'
+            }
+        ];
+
         // 全局变量
         let currentQuestion = {};
         let correctCount = 0;
         let wrongCount = 0;
-        
-        // 页面加载完成后初始化
+        let currentIdiom = {};
+        let currentPoem = {};
+
+        // 页面加载初始化
         document.addEventListener('DOMContentLoaded', function() {
-            initNumberCards();
+            // 初始化导航
+            initNavigation();
+            // 初始化各模块
+            initAlphabetCards();
+            initCharacterCards();
             generateNewQuestion();
             
-            // 事件监听
-            document.getElementById('read-number-btn').addEventListener('click', readRandomNumber);
-            document.getElementById('new-question-btn').addEventListener('click', generateNewQuestion);
-            document.getElementById('check-btn').addEventListener('click', checkAnswer);
-            document.getElementById('answer-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') checkAnswer();
-            });
+            // 绑定事件
+            bindEvents();
         });
-        
-        // 1. 初始化数字卡片
-        function initNumberCards() {
-            const numbersContainer = document.querySelector('#numbers .grid');
-            const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        // 1. 初始化导航
+        function initNavigation() {
+            // 移动端菜单切换
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
             
-            numbers.forEach(num => {
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('hidden');
+            });
+            
+            // 导航链接激活状态
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('nav-active');
+                    }
+                });
+            });
+        }
+
+        // 2. 初始化字母卡片
+        function initAlphabetCards() {
+            const container = document.querySelector('#alphabets .grid');
+            for (let i = 0; i < 26; i++) {
+                const letter = String.fromCharCode(65 + i); // A-Z
                 const card = document.createElement('div');
-                card.className = 'number-card bg-white rounded-xl shadow-md p-4 text-center cursor-pointer hover:bg-primary/10';
+                card.className = 'card-hover bg-white rounded-xl shadow-md p-4 text-center cursor-pointer hover:bg-secondary/10';
                 card.innerHTML = `
-                    <span class="text-4xl md:text-5xl font-bold text-primary">${num}</span>
+                    <span class="text-4xl font-bold text-secondary">${letter}</span>
                     <button class="mt-2 bg-secondary/20 text-secondary rounded-md py-1 px-3 text-sm hover:bg-secondary/30 btn-hover">
                         <i class="fas fa-volume-up mr-1"></i>读
                     </button>
                 `;
-                
-                // 数字朗读功能
-                card.querySelector('button').addEventListener('click', () => readNumber(num));
-                numbersContainer.appendChild(card);
+                // 绑定朗读事件
+                card.querySelector('button').addEventListener('click', () => readText(letter, 'en-US'));
+                container.appendChild(card);
+            }
+        }
+
+        // 3. 初始化汉字卡片
+        function initCharacterCards() {
+            const container = document.querySelector('#chinese .grid');
+            simpleCharacters.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'card-hover bg-white rounded-xl shadow-md p-4 text-center cursor-pointer hover:bg-green/10';
+                card.innerHTML = `
+                    <span class="text-4xl font-bold text-green">${char}</span>
+                    <button class="mt-2 bg-green/20 text-green rounded-md py-1 px-3 text-sm hover:bg-green/30 btn-hover">
+                        <i class="fas fa-volume-up mr-1"></i>读
+                    </button>
+                `;
+                // 绑定朗读事件
+                card.querySelector('button').addEventListener('click', () => readText(char, 'zh-CN'));
+                container.appendChild(card);
             });
         }
-        
-        // 2. 朗读数字
-        function readNumber(num) {
+
+        // 4. 文本朗读通用函数
+        function readText(text, lang = 'zh-CN') {
             const synth = window.speechSynthesis;
-            if (!synth) return alert('您的浏览器不支持语音朗读功能');
+            if (!synth) {
+                alert('您的浏览器不支持语音朗读功能，请更换Chrome/Edge浏览器');
+                return;
+            }
             
-            // 停止当前朗读
-            synth.cancel();
-            
-            const utterance = new SpeechSynthesisUtterance(`数字${num}`);
-            utterance.lang = 'zh-CN';
+            synth.cancel(); // 停止当前朗读
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
             utterance.rate = 0.9; // 语速稍慢
-            utterance.pitch = 1.2; // 音调稍高，更适合儿童
+            utterance.pitch = 1.2; // 音调稍高
             synth.speak(utterance);
         }
-        
-        // 3. 随机朗读一个数字
-        function readRandomNumber() {
-            const randomNum = Math.floor(Math.random() * 10);
-            readNumber(randomNum);
+
+        // 5. 绑定所有事件
+        function bindEvents() {
+            // 字母模块
+            document.getElementById('read-letter-btn').addEventListener('click', () => {
+                const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                readText(randomLetter, 'en-US');
+            });
+
+            // 汉字模块
+            document.getElementById('read-char-btn').addEventListener('click', () => {
+                const randomChar = simpleCharacters[Math.floor(Math.random() * simpleCharacters.length)];
+                readText(randomChar);
+            });
+
+            // 成语模块
+            document.getElementById('new-idiom-btn').addEventListener('click', () => {
+                currentIdiom = idiomsList[Math.floor(Math.random() * idiomsList.length)];
+                document.getElementById('idiom-display').textContent = currentIdiom.name;
+                document.getElementById('idiom-explain').textContent = currentIdiom.explain;
+            });
+            
+            document.getElementById('read-idiom-btn').addEventListener('click', () => {
+                if (currentIdiom.name) {
+                    readText(currentIdiom.name);
+                } else {
+                    alert('请先点击"新成语"按钮获取成语');
+                }
+            });
+
+            // 古诗模块
+            document.getElementById('new-poem-btn').addEventListener('click', () => {
+                currentPoem = poemsList[Math.floor(Math.random() * poemsList.length)];
+                document.getElementById('poem-title').textContent = currentPoem.title;
+                document.getElementById('poem-author').textContent = currentPoem.author;
+                document.getElementById('poem-content').textContent = currentPoem.content;
+            });
+            
+            document.getElementById('read-poem-btn').addEventListener('click', () => {
+                if (currentPoem.content) {
+                    readText(`${currentPoem.title}，${currentPoem.author}。${currentPoem.content}`);
+                } else {
+                    alert('请先点击"新古诗"按钮获取古诗');
+                }
+            });
+
+            // 数学模块
+            document.getElementById('new-question-btn').addEventListener('click', generateNewQuestion);
+            document.getElementById('check-btn').addEventListener('click', checkAnswer);
+            document.getElementById('answer-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkAnswer();
+            });
         }
-        
-        // 4. 生成新的加减法题目
+
+        // 6. 生成数学题目
         function generateNewQuestion() {
             const maxNum = parseInt(document.getElementById('difficulty').value);
             const operation = document.getElementById('operation').value;
             
             let num1, num2, operator, answer;
             
-            // 根据运算类型生成题目
             if (operation === 'add' || (operation === 'both' && Math.random() > 0.5)) {
                 // 加法
                 num1 = Math.floor(Math.random() * (maxNum + 1));
@@ -218,38 +425,29 @@
                 answer = num1 - num2;
             }
             
-            // 保存当前题目信息
             currentQuestion = { num1, num2, operator, answer };
-            
-            // 显示题目
             document.getElementById('question').textContent = `${num1} ${operator} ${num2} = ?`;
-            
-            // 清空输入和反馈
             document.getElementById('answer-input').value = '';
             document.getElementById('feedback').textContent = '';
             document.getElementById('answer-input').focus();
         }
-        
-        // 5. 检查答案
+
+        // 7. 检查数学答案
         function checkAnswer() {
             const userAnswer = parseInt(document.getElementById('answer-input').value);
             const feedback = document.getElementById('feedback');
             
-            // 验证输入
             if (isNaN(userAnswer)) {
                 feedback.textContent = '请输入有效的数字哦！';
                 feedback.className = 'text-center text-xl font-bold text-orange-500';
                 return;
             }
             
-            // 检查答案
             if (userAnswer === currentQuestion.answer) {
                 feedback.textContent = '🎉 答对啦！真棒！';
                 feedback.className = 'text-center text-xl font-bold text-green-600';
                 correctCount++;
                 document.getElementById('correct-count').textContent = correctCount;
-                
-                // 延迟生成新题目
                 setTimeout(generateNewQuestion, 1500);
             } else {
                 feedback.textContent = `😥 答错了，正确答案是${currentQuestion.answer}哦！`;
