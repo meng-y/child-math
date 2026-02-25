@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝贝数字乐园 - 儿童数字加减法学习</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- 自定义配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B8B', // 粉色主色调
+                        secondary: '#4A90E2', // 蓝色辅助色
+                        accent: '#FFD166', // 黄色强调色
+                        light: '#F8F9FA', // 浅色背景
+                    },
+                    fontFamily: {
+                        kid: ['Comic Sans MS', 'Marker Felt', '微软雅黑', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .btn-hover {
+                transition: all 0.3s ease;
+            }
+            .btn-hover:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+            .number-card {
+                transition: all 0.2s ease;
+            }
+            .number-card:hover {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-light font-kid min-h-screen">
+    <!-- 顶部导航 -->
+    <header class="bg-primary text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-shadow">宝贝数字乐园</h1>
+            <nav>
+                <ul class="flex space-x-4 md:space-x-6">
+                    <li><a href="#numbers" class="btn-hover py-1 px-2 rounded-md hover:bg-white/20">认识数字</a></li>
+                    <li><a href="#math" class="btn-hover py-1 px-2 rounded-md hover:bg-white/20">加减法练习</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 数字认知区域 -->
+        <section id="numbers" class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-secondary mb-8 text-center">认识数字 0-9</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4 md:gap-6">
+                <!-- 数字卡片会通过JS生成 -->
+            </div>
+            
+            <!-- 数字朗读按钮 -->
+            <div class="mt-8 text-center">
+                <button id="read-number-btn" class="bg-accent text-gray-800 font-bold py-3 px-6 rounded-lg btn-hover">
+                    <i class="fas fa-volume-up mr-2"></i>随机朗读一个数字
+                </button>
+            </div>
+        </section>
+
+        <!-- 加减法练习区域 -->
+        <section id="math" class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-secondary mb-8 text-center">开心加减法</h2>
+            
+            <!-- 难度选择 -->
+            <div class="mb-8 text-center">
+                <label class="text-lg mr-4">选择难度：</label>
+                <select id="difficulty" class="py-2 px-4 rounded-md font-kid text-lg border-2 border-secondary">
+                    <option value="10">简单 (0-10)</option>
+                    <option value="20">中等 (0-20)</option>
+                    <option value="50">困难 (0-50)</option>
+                </select>
+                
+                <label class="text-lg ml-8 mr-4">选择运算：</label>
+                <select id="operation" class="py-2 px-4 rounded-md font-kid text-lg border-2 border-secondary">
+                    <option value="add">加法</option>
+                    <option value="sub">减法</option>
+                    <option value="both">混合</option>
+                </select>
+                
+                <button id="new-question-btn" class="ml-4 bg-primary text-white font-bold py-2 px-6 rounded-lg btn-hover">
+                    <i class="fas fa-refresh mr-2"></i>新题目
+                </button>
+            </div>
+            
+            <!-- 题目区域 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-md mx-auto mb-6">
+                <div id="question" class="text-3xl md:text-4xl font-bold text-center mb-6">？ + ？ = ？</div>
+                
+                <!-- 输入答案 -->
+                <div class="flex justify-center items-center space-x-4 mb-6">
+                    <input type="number" id="answer-input" min="0" class="border-2 border-secondary rounded-lg py-3 px-4 text-2xl w-24 text-center font-kid">
+                    <button id="check-btn" class="bg-secondary text-white font-bold py-3 px-8 rounded-lg btn-hover">
+                        <i class="fas fa-check mr-2"></i>检查答案
+                    </button>
+                </div>
+                
+                <!-- 反馈区域 -->
+                <div id="feedback" class="text-center text-xl font-bold min-h-8"></div>
+            </div>
+            
+            <!-- 计分板 -->
+            <div class="text-center text-xl">
+                <p>正确数: <span id="correct-count" class="text-green-600 font-bold">0</span></p>
+                <p>错误数: <span id="wrong-count" class="text-red-600 font-bold">0</span></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>宝贝数字乐园 © 2026 | 快乐学习，快乐成长</p>
+        </div>
+    </footer>
+
+    <script>
+        // 全局变量
+        let currentQuestion = {};
+        let correctCount = 0;
+        let wrongCount = 0;
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initNumberCards();
+            generateNewQuestion();
+            
+            // 事件监听
+            document.getElementById('read-number-btn').addEventListener('click', readRandomNumber);
+            document.getElementById('new-question-btn').addEventListener('click', generateNewQuestion);
+            document.getElementById('check-btn').addEventListener('click', checkAnswer);
+            document.getElementById('answer-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkAnswer();
+            });
+        });
+        
+        // 1. 初始化数字卡片
+        function initNumberCards() {
+            const numbersContainer = document.querySelector('#numbers .grid');
+            const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+            
+            numbers.forEach(num => {
+                const card = document.createElement('div');
+                card.className = 'number-card bg-white rounded-xl shadow-md p-4 text-center cursor-pointer hover:bg-primary/10';
+                card.innerHTML = `
+                    <span class="text-4xl md:text-5xl font-bold text-primary">${num}</span>
+                    <button class="mt-2 bg-secondary/20 text-secondary rounded-md py-1 px-3 text-sm hover:bg-secondary/30 btn-hover">
+                        <i class="fas fa-volume-up mr-1"></i>读
+                    </button>
+                `;
+                
+                // 数字朗读功能
+                card.querySelector('button').addEventListener('click', () => readNumber(num));
+                numbersContainer.appendChild(card);
+            });
+        }
+        
+        // 2. 朗读数字
+        function readNumber(num) {
+            const synth = window.speechSynthesis;
+            if (!synth) return alert('您的浏览器不支持语音朗读功能');
+            
+            // 停止当前朗读
+            synth.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(`数字${num}`);
+            utterance.lang = 'zh-CN';
+            utterance.rate = 0.9; // 语速稍慢
+            utterance.pitch = 1.2; // 音调稍高，更适合儿童
+            synth.speak(utterance);
+        }
+        
+        // 3. 随机朗读一个数字
+        function readRandomNumber() {
+            const randomNum = Math.floor(Math.random() * 10);
+            readNumber(randomNum);
+        }
+        
+        // 4. 生成新的加减法题目
+        function generateNewQuestion() {
+            const maxNum = parseInt(document.getElementById('difficulty').value);
+            const operation = document.getElementById('operation').value;
+            
+            let num1, num2, operator, answer;
+            
+            // 根据运算类型生成题目
+            if (operation === 'add' || (operation === 'both' && Math.random() > 0.5)) {
+                // 加法
+                num1 = Math.floor(Math.random() * (maxNum + 1));
+                num2 = Math.floor(Math.random() * (maxNum - num1 + 1));
+                operator = '+';
+                answer = num1 + num2;
+            } else {
+                // 减法（确保结果非负）
+                num1 = Math.floor(Math.random() * (maxNum + 1));
+                num2 = Math.floor(Math.random() * (num1 + 1));
+                operator = '-';
+                answer = num1 - num2;
+            }
+            
+            // 保存当前题目信息
+            currentQuestion = { num1, num2, operator, answer };
+            
+            // 显示题目
+            document.getElementById('question').textContent = `${num1} ${operator} ${num2} = ?`;
+            
+            // 清空输入和反馈
+            document.getElementById('answer-input').value = '';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('answer-input').focus();
+        }
+        
+        // 5. 检查答案
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer-input').value);
+            const feedback = document.getElementById('feedback');
+            
+            // 验证输入
+            if (isNaN(userAnswer)) {
+                feedback.textContent = '请输入有效的数字哦！';
+                feedback.className = 'text-center text-xl font-bold text-orange-500';
+                return;
+            }
+            
+            // 检查答案
+            if (userAnswer === currentQuestion.answer) {
+                feedback.textContent = '🎉 答对啦！真棒！';
+                feedback.className = 'text-center text-xl font-bold text-green-600';
+                correctCount++;
+                document.getElementById('correct-count').textContent = correctCount;
+                
+                // 延迟生成新题目
+                setTimeout(generateNewQuestion, 1500);
+            } else {
+                feedback.textContent = `😥 答错了，正确答案是${currentQuestion.answer}哦！`;
+                feedback.className = 'text-center text-xl font-bold text-red-600';
+                wrongCount++;
+                document.getElementById('wrong-count').textContent = wrongCount;
+            }
+        }
+    </script>
+</body>
+</html>
